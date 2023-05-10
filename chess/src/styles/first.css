@@ -1,7 +1,9 @@
 h1{
     position: absolute;
-    border-bottom: 1px solid black;
+    /* border-bottom: 1px solid black; */
     /* top: 0px; */
+    padding: 0 0.6rem 0 0.6rem;
+    border-radius: 8px;
     margin-left: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
     /* width: 100%; */
@@ -24,8 +26,9 @@ h1{
     text-emphasis-style: none;
     transition: all 0.5s ease-in-out;
     border-radius: 8px;
+    cursor: pointer;
 }
-button:hover {
+.first button:hover {
     background-color: black;
     transform: translateY(-10px);
 }

@@ -1,0 +1,50 @@
+.hero h3{
+    position: absolute;
+    /* background-color: rgb(46, 187, 46); */
+}
+.hero {
+    background-color: green;
+    height: 100vh;
+    width: auto;
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+}
+.hero form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.hero input {
+    margin: 0.2rem;
+    padding: 0.4rem;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    margin-bottom: 0.5rem;
+}
+.hero button{
+    margin-top: 0.3rem;
+    width: 40%;
+    margin: 0 auto;
+    border: none;
+    padding: 0.3rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.5s;
+    /* color: white; */
+}
+.hero button:hover {
+    background-color: lightgreen;
+    transform: translateY(10px)
+}
+.hero p {
+    display: flex;
+}
+.hero h5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+}
