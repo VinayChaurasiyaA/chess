@@ -1,58 +1,9 @@
-.board {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid black;
-  width: 100vh;
+.app {
+  display: grid;
+  place-content: start;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  /* margin : 1rem 0 0 1rem; */
   height: 100vh;
-  position: relative;
-  flex-wrap: wrap; /* Add this property */
-}
-
-.square {
-  width: 12;
-  height: 86px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 40px;
-  position: relative;
-}
-
-.dark {
-  background-color: #b58863;
-  color: white;
-}
-
-.light {
-  background-color: #f0d9b5;
-  color: #b58863;
-}
-
-/* Add borders to top and left sides of each square */
-.square:nth-child(-n + 8) {
-  border-top: 1px solid black;
-}
-
-.square:nth-child(8n + 1) {
-  border-left: 1px solid black;
-}
-
-/* Add border to bottom of board */
-.square:nth-child(n + 57) {
-  border-bottom: 1px solid black;
-}
-
-/* Add border to right of board */
-.square:nth-child(8n) {
-  border-right: 1px solid black;
-}
-.letter {
-  position: absolute;
-  bottom: -10px; /* Adjust this value to change the vertical position of the letters */
-  left: 0;
-  width: 100%;
-  font-size: 20px; /* Adjust this value to change the size of the letters */
-  text-align: center;
-  white-space: nowrap; /* Add this property */
-  transform: rotate(180deg);
+  background-color: green;
 }

@@ -1,0 +1,15 @@
+.tile {
+    width: 75px;
+    height: 75px;
+}
+
+.black-tile {
+    background-color: brown;
+    color: white;
+}
+.white-tile {
+    background-color: white
+}
+.tile img {
+    width: 70px;
+}
