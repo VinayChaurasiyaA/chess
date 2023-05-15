@@ -11,5 +11,18 @@
     background-color: white
 }
 .tile img {
-    width: 70px;
+    /* width: 70px; */
+}
+.chess-pieces {
+    width: 75px;
+    height: 75px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 70px;
+}
+.chess-pieces:hover {
+    cursor: grab;
+}
+.chess-pieces:active {
+    cursor: grabbing;
 }

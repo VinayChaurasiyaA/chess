@@ -34,23 +34,58 @@ for (let i = 0; i < 8; i++) {
   Piece.push({ x: i, y: 1, image: img1 });
 }
 // black pieces
-Piece.push({x : 0 , y: 7 , image: img12});
-Piece.push({x : 7 , y: 7 , image: img12});
-Piece.push({x : 1 , y: 7 , image: img8});
-Piece.push({x : 6 , y: 7 , image: img8});
-Piece.push({x : 2 , y: 7 , image: img10});
-Piece.push({x : 5 , y: 7 , image: img10});
-Piece.push({x : 3 , y: 7 , image: img6});
-Piece.push({x : 4 , y: 7 , image: img4});
+Piece.push({ x: 0, y: 7, image: img12 });
+Piece.push({ x: 7, y: 7, image: img12 });
+Piece.push({ x: 1, y: 7, image: img8 });
+Piece.push({ x: 6, y: 7, image: img8 });
+Piece.push({ x: 2, y: 7, image: img10 });
+Piece.push({ x: 5, y: 7, image: img10 });
+Piece.push({ x: 3, y: 7, image: img6 });
+Piece.push({ x: 4, y: 7, image: img4 });
 // white pices
-Piece.push({x : 0 , y: 0 , image: img11});
-Piece.push({x : 7 , y: 0 , image: img11});
-Piece.push({x : 1 , y: 0 , image: img7});
-Piece.push({x : 6 , y: 0 , image: img7});
-Piece.push({x : 2 , y: 0 , image: img9});
-Piece.push({x : 5 , y: 0 , image: img9});
-Piece.push({x : 3 , y: 0 , image: img5});
-Piece.push({x : 4 , y: 0 , image: img3});
+Piece.push({ x: 0, y: 0, image: img11 });
+Piece.push({ x: 7, y: 0, image: img11 });
+Piece.push({ x: 1, y: 0, image: img7 });
+Piece.push({ x: 6, y: 0, image: img7 });
+Piece.push({ x: 2, y: 0, image: img9 });
+Piece.push({ x: 5, y: 0, image: img9 });
+Piece.push({ x: 3, y: 0, image: img5 });
+Piece.push({ x: 4, y: 0, image: img3 });
+
+let activePiece = null;
+
+const grabPiece = (e) => {
+  // console.log(e.target);
+  if (e.target.classList.contains("chess-pieces")) {
+    console.log("grabbed");
+    e.target.style.position = "absolute";
+
+    const x = e.clientX - 50;
+    const y = e.clientY - 50;
+
+    e.target.style.left = `${x}px`;
+    e.target.style.top = `${y}px`;
+    activePiece = e.target;
+  }
+};
+
+const mouseMove = (e) => {
+  if (activePiece) {
+    const x = e.clientX - 50;
+    const y = e.clientY - 50;
+
+    activePiece.style.position = "absolute";
+    activePiece.style.left = `${x}px`;
+    activePiece.style.top = `${y}px`;
+    // activePiece = e.target;
+  }
+};
+
+const dropPiece = (e) => {
+  if (activePiece) {
+    activePiece = null;
+  }
+};
 const Chessboard = () => {
   let board = [];
   for (let j = vertical.length - 1; j >= 0; j--) {
@@ -60,10 +95,19 @@ const Chessboard = () => {
       Piece.forEach((p) => {
         if (p.x === i && p.y === j) image = p.image;
       });
-      board.push(<Tile image={image} tile={tiles} />);
+      board.push(<Tile key={`${i}, ${j}`} image={image} tile={tiles} />);
     }
   }
-  return <div id="chessboard">{board}</div>;
+  return (
+    <div
+      onMouseUp={(e) => dropPiece(e)}
+      onMouseMove={(e) => mouseMove(e)}
+      onMouseDown={(e) => grabPiece(e)}
+      id="chessboard"
+    >
+      {board}
+    </div>
+  );
 };
 
 export default Chessboard;
