@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import "../styles/board.css";
 import img1 from "../images/pawn_w.png";
@@ -23,6 +23,7 @@ import img10 from "../images/bishop_b.png";
 import img11 from "../images/rook_w.png";
 import img12 from "../images/rook_b.png";
 import Tile from "./Tile";
+
 const horizontal = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const vertical = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
@@ -53,20 +54,32 @@ Piece.push({ x: 3, y: 0, image: img5 });
 Piece.push({ x: 4, y: 0, image: img3 });
 
 const Chessboard = () => {
-  let activePiece = null;
+  const [peices, setPeices] = useState(Piece);
+  const [activePiece, setActivePiece] = useState(null);
+  // made the change here
+  // let activePiece = null;
+
+  const [gridX, setGridX] = useState(0);
+  const [gridY, setGridY] = useState(0);
+
   const chessboardRef = useRef(null);
   const grabPiece = (e) => {
+    const chessboard = chessboardRef.current;
     // console.log(e.target);
     if (e.target.classList.contains("chess-pieces")) {
       console.log("grabbed");
       e.target.style.position = "absolute";
-
+      setGridX(Math.floor((e.clientX - chessboard.offsetLeft) / 75));
+      setGridY(
+        Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 600) / 75))
+      );
       const x = e.clientX - 50;
       const y = e.clientY - 50;
 
       e.target.style.left = `${x}px`;
       e.target.style.top = `${y}px`;
-      activePiece = e.target;
+      setActivePiece(e.target);
+      // activePiece = e.target;
     }
   };
 
@@ -75,8 +88,10 @@ const Chessboard = () => {
     if (activePiece && chessboard) {
       const minX = chessboard.offsetLeft - 25;
       const minY = chessboard.offsetTop - 25;
+
       const maxX = chessboard.offsetLeft + chessboard.clientWidth - 75;
       const maxY = chessboard.offsetTop + chessboard.clientHeight - 75;
+
       const x = e.clientX - 50;
       const y = e.clientY - 50;
       activePiece.style.position = "absolute";
@@ -110,8 +125,28 @@ const Chessboard = () => {
   };
 
   const dropPiece = (e) => {
-    if (activePiece) {
-      activePiece = null;
+    const chessboard = chessboardRef.current;
+    console.log(e);
+    if (activePiece && chessboard) {
+      const x = Math.floor((e.clientX - chessboard.offsetLeft) / 75);
+      const y = Math.abs(
+        Math.ceil((e.clientY - chessboard.offsetTop - 600) / 75)
+      );
+      console.log(x, y);
+      setPeices((piece) => {
+        const peices = piece.map((p) => {
+          if (p.x === gridX && p.y === gridY) {
+            p.x = x;
+            p.y = y;
+          }
+          return p;
+        });
+        return peices;
+      });
+
+      // console.log(e.target);
+      setActivePiece(null);
+      // activePiece = null;
     }
   };
   let board = [];
