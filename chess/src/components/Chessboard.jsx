@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import "../styles/board.css";
 import img1 from "../images/pawn_w.png";
@@ -52,42 +52,70 @@ Piece.push({ x: 5, y: 0, image: img9 });
 Piece.push({ x: 3, y: 0, image: img5 });
 Piece.push({ x: 4, y: 0, image: img3 });
 
-let activePiece = null;
-
-const grabPiece = (e) => {
-  // console.log(e.target);
-  if (e.target.classList.contains("chess-pieces")) {
-    console.log("grabbed");
-    e.target.style.position = "absolute";
-
-    const x = e.clientX - 50;
-    const y = e.clientY - 50;
-
-    e.target.style.left = `${x}px`;
-    e.target.style.top = `${y}px`;
-    activePiece = e.target;
-  }
-};
-
-const mouseMove = (e) => {
-  if (activePiece) {
-    const x = e.clientX - 50;
-    const y = e.clientY - 50;
-
-    activePiece.style.position = "absolute";
-    activePiece.style.left = `${x}px`;
-    activePiece.style.top = `${y}px`;
-    // activePiece = e.target;
-  }
-};
-
-const dropPiece = (e) => {
-  if (activePiece) {
-    activePiece = null;
-  }
-};
 const Chessboard = () => {
+  let activePiece = null;
+  const chessboardRef = useRef(null);
+  const grabPiece = (e) => {
+    // console.log(e.target);
+    if (e.target.classList.contains("chess-pieces")) {
+      console.log("grabbed");
+      e.target.style.position = "absolute";
+
+      const x = e.clientX - 50;
+      const y = e.clientY - 50;
+
+      e.target.style.left = `${x}px`;
+      e.target.style.top = `${y}px`;
+      activePiece = e.target;
+    }
+  };
+
+  const mouseMove = (e) => {
+    const chessboard = chessboardRef.current;
+    if (activePiece && chessboard) {
+      const minX = chessboard.offsetLeft - 25;
+      const minY = chessboard.offsetTop - 25;
+      const maxX = chessboard.offsetLeft + chessboard.clientWidth - 75;
+      const maxY = chessboard.offsetTop + chessboard.clientHeight - 75;
+      const x = e.clientX - 50;
+      const y = e.clientY - 50;
+      activePiece.style.position = "absolute";
+
+      //If x is smaller than minimum amount
+      if (x < minX) {
+        activePiece.style.left = `${minX}px`;
+      }
+      //If x is bigger than maximum amount
+      else if (x > maxX) {
+        activePiece.style.left = `${maxX}px`;
+      }
+      //If x is in the constraints
+      else {
+        activePiece.style.left = `${x}px`;
+      }
+
+      //If y is smaller than minimum amount
+      if (y < minY) {
+        activePiece.style.top = `${minY}px`;
+      }
+      //If y is bigger than maximum amount
+      else if (y > maxY) {
+        activePiece.style.top = `${maxY}px`;
+      }
+      //If y is in the constraints
+      else {
+        activePiece.style.top = `${y}px`;
+      }
+    }
+  };
+
+  const dropPiece = (e) => {
+    if (activePiece) {
+      activePiece = null;
+    }
+  };
   let board = [];
+
   for (let j = vertical.length - 1; j >= 0; j--) {
     for (let i = 0; i < horizontal.length; i++) {
       const tiles = i + j + 2;
@@ -104,6 +132,7 @@ const Chessboard = () => {
       onMouseMove={(e) => mouseMove(e)}
       onMouseDown={(e) => grabPiece(e)}
       id="chessboard"
+      ref={chessboardRef}
     >
       {board}
     </div>

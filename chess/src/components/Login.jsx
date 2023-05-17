@@ -7,7 +7,7 @@ const Login = () => {
       <h3>Login</h3>
       <div className="hero">
         <form action="">
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Username</label>
           <input type="text" id="name" />
           <label htmlFor="password">Password</label>
           <input type="password" id="password" />
