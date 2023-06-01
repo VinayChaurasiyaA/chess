@@ -7,7 +7,7 @@ const Home = () => {
   const [invite, setInvite] = useState(false);
   const navigate = useNavigate();
   const handleJoin = () => {
-    navigate("/room/:id");
+    navigate("/room/1");
     console.log("Joining the room");
   };
   const handleInvite = (e) => {
