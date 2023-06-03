@@ -2,6 +2,7 @@ import React from "react";
 import Chessboard from "./Chessboard";
 
 import "../styles/room.css";
+import Videocallroom from "./Videocallroom";
 const Room = () => {
   return (
     <div className="app">
@@ -9,7 +10,7 @@ const Room = () => {
         <Chessboard />
       </div>
       <div className="video">
-        <h1>Room</h1>
+        <Videocallroom />
       </div>
     </div>
   );

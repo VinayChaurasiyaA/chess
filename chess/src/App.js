@@ -20,6 +20,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/home" element={<Home />} />
             <Route path="/room/:id" element={<Room />} />
+            
           </Routes>
         </PeerProvider>
       </SocketProvider>

@@ -1,42 +1,51 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AiFillCopy } from "react-icons/ai";
-
 import "../styles/home.css";
-const Home = () => {
-  const [invite, setInvite] = useState(false);
+import { useSocket } from "../Providers/Socket";
+const Homepage = () => {
+  const [email, setEmail] = useState();
+  const [room, setRoom] = useState();
+
+  const { socket } = useSocket();
   const navigate = useNavigate();
-  const handleJoin = () => {
-    navigate("/room/1");
-    console.log("Joining the room");
+  const handleOnClick = () => {
+    socket.emit("join-room", { roomId: room, emailId: email });
   };
-  const handleInvite = (e) => {
-    e.preventDefault();
-    // todo implement the invite functionality
-    setInvite(true);
-  };
+  const handleRoomJoined = useCallback(
+    ({ roomId }) => {
+      navigate(`/room/${roomId}`);
+      // console.log("room joined", roomId);
+    },
+    [navigate]
+  );
+  useEffect(() => {
+    socket.on("joined-room", handleRoomJoined);
+    return () => {
+      socket.off("joined-room", handleRoomJoined);
+    };
+  }, [socket]);
+  //   socket.emit("join-room", { roomId: 1, emailId: "vinay@gmail.com" });
   return (
     <>
       <h1 className="heading">Chess.io</h1>
       <div className="container-home">
         <div className="up">
-          {invite ? (
-            <>
-              <AiFillCopy className="copy-icon" size={"16px"} />
-              <input type="text" value={"fetch and show the socket link"} />
-            </>
-          ) : (
-            <button
-              className="btn-invite btn-join"
-              onClick={(e) => handleInvite(e)}
-            >
-              invite
-            </button>
-          )}
-        </div>
-        <div className="down">
-          <button className="btn-join" onClick={handleJoin}>
-            Join the room
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            placeholder="Enter your email"
+            required
+          />
+          <input
+            value={room}
+            onChange={(e) => setRoom(e.target.value)}
+            type="text"
+            placeholder="Enter the room ID"
+            required
+          />
+          <button onClick={handleOnClick} className="btn-join">
+            Enter
           </button>
         </div>
       </div>
@@ -44,4 +53,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Homepage;
