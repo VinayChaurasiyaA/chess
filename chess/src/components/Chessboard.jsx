@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import Refree from "../functons/refree";
 
 import "../styles/board.css";
 import img1 from "../images/pawn_w.png";
@@ -26,32 +27,33 @@ import Tile from "./Tile";
 
 const horizontal = ["a", "b", "c", "d", "e", "f", "g", "h"];
 const vertical = ["1", "2", "3", "4", "5", "6", "7", "8"];
+const refree = new Refree();
 
 const Piece = [];
 for (let i = 0; i < 8; i++) {
-  Piece.push({ x: i, y: 6, image: img2 });
+  Piece.push({ x: i, y: 6, image: img2, pieceType: "pawn" });
 }
 for (let i = 0; i < 8; i++) {
-  Piece.push({ x: i, y: 1, image: img1 });
+  Piece.push({ x: i, y: 1, image: img1, pieceType: "pawn" });
 }
 // black pieces
-Piece.push({ x: 0, y: 7, image: img12 });
-Piece.push({ x: 7, y: 7, image: img12 });
-Piece.push({ x: 1, y: 7, image: img8 });
-Piece.push({ x: 6, y: 7, image: img8 });
-Piece.push({ x: 2, y: 7, image: img10 });
-Piece.push({ x: 5, y: 7, image: img10 });
-Piece.push({ x: 3, y: 7, image: img6 });
-Piece.push({ x: 4, y: 7, image: img4 });
+Piece.push({ x: 0, y: 7, image: img12, pieceType: "rook" }); // rook
+Piece.push({ x: 7, y: 7, image: img12, pieceType: "rook" });
+Piece.push({ x: 1, y: 7, image: img8, pieceType: "knight" });
+Piece.push({ x: 6, y: 7, image: img8, pieceType: "knight" });
+Piece.push({ x: 2, y: 7, image: img10, pieceType: "bishop" });
+Piece.push({ x: 5, y: 7, image: img10, pieceType: "bishop" });
+Piece.push({ x: 3, y: 7, image: img6, pieceType: "queen" });
+Piece.push({ x: 4, y: 7, image: img4, pieceType: "king" });
 // white pices
-Piece.push({ x: 0, y: 0, image: img11 });
-Piece.push({ x: 7, y: 0, image: img11 });
-Piece.push({ x: 1, y: 0, image: img7 });
-Piece.push({ x: 6, y: 0, image: img7 });
-Piece.push({ x: 2, y: 0, image: img9 });
-Piece.push({ x: 5, y: 0, image: img9 });
-Piece.push({ x: 3, y: 0, image: img5 });
-Piece.push({ x: 4, y: 0, image: img3 });
+Piece.push({ x: 0, y: 0, image: img11, pieceType: "rook" });
+Piece.push({ x: 7, y: 0, image: img11, pieceType: "rook" });
+Piece.push({ x: 1, y: 0, image: img7, pieceType: "knight" });
+Piece.push({ x: 6, y: 0, image: img7, pieceType: "knight" });
+Piece.push({ x: 2, y: 0, image: img9, pieceType: "bishop" });
+Piece.push({ x: 5, y: 0, image: img9, pieceType: "bishop" });
+Piece.push({ x: 3, y: 0, image: img5, pieceType: "queen" });
+Piece.push({ x: 4, y: 0, image: img3, pieceType: "king" });
 
 const Chessboard = () => {
   const [peices, setPeices] = useState(Piece);
@@ -126,7 +128,8 @@ const Chessboard = () => {
 
   const dropPiece = (e) => {
     const chessboard = chessboardRef.current;
-    console.log(e);
+    // console.log(e);
+    //  check the refree
     if (activePiece && chessboard) {
       const x = Math.floor((e.clientX - chessboard.offsetLeft) / 75);
       const y = Math.abs(
@@ -136,6 +139,9 @@ const Chessboard = () => {
       setPeices((piece) => {
         const peices = piece.map((p) => {
           if (p.x === gridX && p.y === gridY) {
+            console.log(p);
+            refree.isValidMove(gridX, gridY, x, y, p.pieceType);
+
             p.x = x;
             p.y = y;
           }
