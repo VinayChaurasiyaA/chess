@@ -31,30 +31,34 @@ const refree = new Refree();
 
 const Piece = [];
 for (let i = 0; i < 8; i++) {
-  Piece.push({ x: i, y: 6, image: img2, pieceType: "pawn" });
+  Piece.push({ x: i, y: 6, image: img2, pieceType: "pawn", team: "black" });
 }
 for (let i = 0; i < 8; i++) {
-  Piece.push({ x: i, y: 1, image: img1, pieceType: "pawn" });
+  Piece.push({ x: i, y: 1, image: img1, pieceType: "pawn", team: "white" });
 }
-// black pieces
-Piece.push({ x: 0, y: 7, image: img12, pieceType: "rook" }); // rook
-Piece.push({ x: 7, y: 7, image: img12, pieceType: "rook" });
-Piece.push({ x: 1, y: 7, image: img8, pieceType: "knight" });
-Piece.push({ x: 6, y: 7, image: img8, pieceType: "knight" });
-Piece.push({ x: 2, y: 7, image: img10, pieceType: "bishop" });
-Piece.push({ x: 5, y: 7, image: img10, pieceType: "bishop" });
-Piece.push({ x: 3, y: 7, image: img6, pieceType: "queen" });
-Piece.push({ x: 4, y: 7, image: img4, pieceType: "king" });
-// white pices
-Piece.push({ x: 0, y: 0, image: img11, pieceType: "rook" });
-Piece.push({ x: 7, y: 0, image: img11, pieceType: "rook" });
-Piece.push({ x: 1, y: 0, image: img7, pieceType: "knight" });
-Piece.push({ x: 6, y: 0, image: img7, pieceType: "knight" });
-Piece.push({ x: 2, y: 0, image: img9, pieceType: "bishop" });
-Piece.push({ x: 5, y: 0, image: img9, pieceType: "bishop" });
-Piece.push({ x: 3, y: 0, image: img5, pieceType: "queen" });
-Piece.push({ x: 4, y: 0, image: img3, pieceType: "king" });
+for (let p = 0; p < 2; p++) {
+  const teamType = p === 0 ? "opponent" : "our";
+  const type = teamType === "opponent" ? "black" : "white";
 
+  // black pieces
+  Piece.push({ x: 0, y: 7, image: img12, pieceType: "rook", team: type }); // rook
+  Piece.push({ x: 7, y: 7, image: img12, pieceType: "rook", team: type });
+  Piece.push({ x: 1, y: 7, image: img8, pieceType: "knight", team: type });
+  Piece.push({ x: 6, y: 7, image: img8, pieceType: "knight", team: type });
+  Piece.push({ x: 2, y: 7, image: img10, pieceType: "bishop", team: type });
+  Piece.push({ x: 5, y: 7, image: img10, pieceType: "bishop", team: type });
+  Piece.push({ x: 3, y: 7, image: img6, pieceType: "queen", team: type });
+  Piece.push({ x: 4, y: 7, image: img4, pieceType: "king", team: type });
+  // white pices
+  Piece.push({ x: 0, y: 0, image: img11, pieceType: "rook", team: type });
+  Piece.push({ x: 7, y: 0, image: img11, pieceType: "rook", team: type });
+  Piece.push({ x: 1, y: 0, image: img7, pieceType: "knight", team: type });
+  Piece.push({ x: 6, y: 0, image: img7, pieceType: "knight", team: type });
+  Piece.push({ x: 2, y: 0, image: img9, pieceType: "bishop", team: type });
+  Piece.push({ x: 5, y: 0, image: img9, pieceType: "bishop", team: type });
+  Piece.push({ x: 3, y: 0, image: img5, pieceType: "queen", team: type });
+  Piece.push({ x: 4, y: 0, image: img3, pieceType: "king", team: type });
+}
 const Chessboard = () => {
   const [peices, setPeices] = useState(Piece);
   const [activePiece, setActivePiece] = useState(null);
@@ -140,10 +144,22 @@ const Chessboard = () => {
         const peices = piece.map((p) => {
           if (p.x === gridX && p.y === gridY) {
             console.log(p);
-            refree.isValidMove(gridX, gridY, x, y, p.pieceType);
-
-            p.x = x;
-            p.y = y;
+            const valid = refree.isValidMove(
+              gridX,
+              gridY,
+              x,
+              y,
+              p.pieceType,
+              p.team
+            );
+            if (valid) {
+              p.x = x;
+              p.y = y;
+            } else {
+              activePiece.style.position = "relative";
+              activePiece.style.removeProperty("top");
+              activePiece.style.removeProperty("left");
+            }
           }
           return p;
         });
