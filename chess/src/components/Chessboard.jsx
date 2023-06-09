@@ -150,7 +150,8 @@ const Chessboard = () => {
               x,
               y,
               p.pieceType,
-              p.team
+              p.team,
+              piece
             );
             if (valid) {
               p.x = x;
