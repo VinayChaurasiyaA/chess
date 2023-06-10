@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+.down{
+  margin-top: 4rem;
+}
+.btn {
+  margin-left: 14rem;
+}
+.mystream {
+  height: 100px;
+  width: 100px;
+}
+

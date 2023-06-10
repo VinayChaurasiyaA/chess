@@ -1,11 +1,7 @@
 export default class Refree {
   isOccupied(x, y, board) {
     console.log("checking whether the place is occupied or not..." + board);
-    const piece = board.find((p) => {
-      if (p.x === x && p.y === y) {
-        console.log(p);
-      }
-    });
+    const piece = board.find((p) => p.x === x && p.y === y);
     if (piece) {
       return true;
     }

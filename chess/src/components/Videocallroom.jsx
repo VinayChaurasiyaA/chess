@@ -3,6 +3,7 @@ import ReactPlayer from "react-player";
 
 import { useSocket } from "../Providers/Socket";
 import { usePeer } from "../Providers/Peer";
+
 const Videocallroom = () => {
   const [myStream, setMyStream] = useState(null);
   const [remoteEmailId, setRemoteEmailId] = useState();
@@ -57,8 +58,8 @@ const Videocallroom = () => {
   const handleNegociation = useCallback(() => {
     console.log("OOps neg required");
     const localOffer = peer.localDescription;
-    socket.emit("call-user" , {emailId : remoteEmailId , offer : localOffer})
-  } , [peer.localDescription, remoteEmailId, socket]);
+    socket.emit("call-user", { emailId: remoteEmailId, offer: localOffer });
+  }, [peer.localDescription, remoteEmailId, socket]);
 
   useEffect(() => {
     socket.on("user-joined", handleNewUser);
@@ -77,20 +78,27 @@ const Videocallroom = () => {
   }, [getUserMediaStream]);
 
   useEffect(() => {
-    peer.addEventListener("negotiationneeded" , handleNegociation);
+    peer.addEventListener("negotiationneeded", handleNegociation);
 
     return () => {
-    peer.removeEventListener("negotiationneeded" , handleNegociation);
-
-    }
-  })
+      peer.removeEventListener("negotiationneeded", handleNegociation);
+    };
+  });
   return (
     <div>
       <h1>RoomPage</h1>
-      <h3>You are connected to {remoteEmailId}</h3>
-      <button onClick={(e) => sendStream(myStream)}>Send Stream</button>
-      <ReactPlayer url={myStream} playing />
-      <ReactPlayer url={remoteStream} playing />
+      <h3 className="down">You are connected to {remoteEmailId}</h3>
+      <button className="btn" onClick={(e) => sendStream(myStream)}>
+        Send Stream
+      </button>
+      <div className="down mystream">
+        <ReactPlayer
+          // style={{ height: "100px", width: "100px" }}
+          url={myStream}
+          playing
+        />
+      </div>
+      <ReactPlayer className="remotestream" url={remoteStream} playing />
 
       {/* </ReactPlayer> */}
     </div>
